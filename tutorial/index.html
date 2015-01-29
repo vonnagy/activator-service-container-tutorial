@@ -1,0 +1,56 @@
+<html>
+<head>
+    <title>Service Container</title>
+</head>
+<body>
+<div>
+<h2>Overview</h2>
+<p>This is a Typesafe Activator Template for demonstrating how to build a micro-service using the <a href="https://github.com/vonnagy/service-container" target="_blank">Service Container</a>. The example contained within the template constructs a simple REST API for the CRUD operation of a Widget. It simulates the persistence layer, bug can easily be replaced with your favorite bit of technology.</p>
+</div>
+<div>
+<h2>Application</h2>
+<p>The main application entry point in <code>Service.scala</code>. In this file, it builds up an instance of the service and starts the service. During the builder operation is registers the API endpoints that are contained in the class <code>WidgetService</code>.</p>
+<code><pre>
+// Here we establish the container and build it while
+// applying extras.
+val service = new ContainerBuilder()
+  // Register the API routes
+  .withRoutes(classOf[WidgetService]).build
+
+service.start
+</pre></code>
+<p>By default, the service runs on <a href="http://localhost:9092" target="_blank">http//localhost9092</a> and thus all endpoints can be accessed using this base address. There are several built-in endpoints that the container exposes and those are documented here <a href="https://github.com/vonnagy/service-container/blob/master/docs/Endpoints.md" target="_blank">Built-in Endpoints</a></p>
+</div>
+<div>
+<h2>API Endpoints</h2>
+<p>The API endpoints are defined in the class <code>WidgetService</code>. This class defines the routes to be used by applying standard standard <a href="http://spray.io" target="_blank">Spray</a> routing techniques.</p>
+</div>
+<div>
+<h2>Health Checks</h2>
+<p>The <strong>Service Container</strong> allows one to define sub-checks within the system in order to help determine the state of the service. Any number of registered healths checks can be used and there is support for registration by using traits (<code>RegisteredHealthCheck</code> and <code>RegisteredHealthCheckActor</code>) or by registering when building the service.</p>
+<p>In this template the class <code>WidgetPersistence</code> registers itself as a health check to evaluate the state of the persistence.</p>
+<code><pre>
+class WidgetPersistence(implicit val system: ActorSystem) extends RegisteredHealthCheck {
+
+  import system.dispatcher
+
+  /**
+   * Fetch the health for this registered checker.
+   * @return returns a future to the health information
+   */
+  def getHealth: Future[HealthInfo] = Future {
+    HealthInfo("db", HealthState.OK, s"The persistence is running and currently contains ${WidgetPersistence.widgets.size} Widgets")
+  }
+</pre></code>
+</div>
+<div>
+<h2>Metrics</h2>
+<p>The <strong>Service Container</strong> supports the management of metrics. For more details about metrics can be obtained here <a href="https://github.com/vonnagy/service-container/blob/master/docs/Metrics.md" target="_blank">Metrics</a></p>
+<p>In this template the class <code>WidgetPersistence</code> registers calls to it's functions and records the number of times they have been called. Each metrics is created like the following</p>
+<code><pre>
+val get = Counter("db.widgets.get")
+</pre></code>
+<p>Per the comments above regarding built-in endpoints, the new metrics can be viewed by calling the endpoint at <a href="http://localhost:9092/metrics" target="_blank">http//localhost9092/metrics</a>.</p>
+</div>
+</body>
+</html>
