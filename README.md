@@ -1,6 +1,8 @@
 Service Container
 ===========================
 
+[![Build Status](https://travis-ci.org/vonnagy/activator-service-container-tutorial.png?branch=master)](https://travis-ci.org/vonnagy/activator-service-container-tutorial)
+
 # Overview
 This is a Typesafe Activator Template for demonstrating how to build a micro-service using the
 [Service Container](https://github.com/vonnagy/service-container). The example contained within the template constructs
