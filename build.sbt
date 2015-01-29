@@ -9,7 +9,7 @@ scalaVersion := "2.10.4"
 
 libraryDependencies ++= {
 
-	val containerVersion 	= "1.0.0-SNAPSHOT"
+	val containerVersion 	= "1.0.0"
   val configVersion     = "1.2.1"
   val akkaVersion  			= "2.3.8"
   val liftVersion				= "2.5.1"
