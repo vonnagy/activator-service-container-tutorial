@@ -1,0 +1,10 @@
+language: scala
+scala:
+- 2.10.4
+script: sbt clean test
+jdk:
+- oraclejdk7
+notifications:
+  email:
+    recipients:
+    - ivan@vonnagy.net
