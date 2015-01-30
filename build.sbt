@@ -17,6 +17,7 @@ libraryDependencies ++= {
 
   Seq(
   	"com.github.vonnagy"	%%  "service-container" % containerVersion,
+    "com.github.vonnagy"	%%  "service-container-metrics-reporting" % containerVersion,
     "com.typesafe" 	      %   "config"				    % configVersion,
     "com.typesafe.akka" 	%%  "akka-actor"				% akkaVersion exclude ("org.scala-lang" , "scala-library"),
     "com.typesafe.akka" 	%%  "akka-slf4j"				% akkaVersion exclude ("org.slf4j", "slf4j-api") exclude ("org.scala-lang" , "scala-library"),

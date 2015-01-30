@@ -22,6 +22,16 @@ service.start
 <p>By default, the service runs on <a href="http://localhost:9092" target="_blank">http//localhost9092</a> and thus all endpoints can be accessed using this base address. There are several built-in endpoints that the container exposes and those are documented here <a href="https://github.com/vonnagy/service-container/blob/master/docs/Endpoints.md" target="_blank">Built-in Endpoints</a></p>
 </div>
 <div>
+<h2>Configuration</h2>
+<p>Configuration of the <strong>Service Container</strong> uses the standard <a href="https://github.com/typesafehub/config" target="_blank">Typesafe Config</a> rollup patterns. For more detailed information, refer to the <a href="https://github.com/vonnagy/service-container/blob/master/docs/Configuration.md" target="_blank">Configuration</a></p>
+<p>This template contains an <code>application.conf</code> file that overrides the default settings which are contained in the dependent libraries. This file can be edited or configuration can also be set by the following</p>
+<ul>
+<li>A JVM system property called <code>config.file</code> can be used (e.g. <code>-Dconfig.file=/myconfig.conf</code>)</li>
+<li>Place an <code>application.conf</code> file in a <strong>conf</strong> sub-directory off the process root</li>
+<li>Configure the service with a config during the build process (e.g. <code>val service = new ContainerBuilder().withConfig(ConfigFactory.parseFile("/somefile.conf"))</code>)</li>
+</ul>
+</div>
+<div>
 <h2>API Endpoints</h2>
 <p>The API endpoints are defined in the class <code>WidgetService</code>. This class defines the routes to be used by applying standard standard <a href="http://spray.io" target="_blank">Spray</a> routing techniques.</p>
 </div>
@@ -51,6 +61,46 @@ class WidgetPersistence(implicit val system: ActorSystem) extends RegisteredHeal
 val get = Counter("db.widgets.get")
 </pre></code>
 <p>Per the comments above regarding built-in endpoints, the new metrics can be viewed by calling the endpoint at <a href="http://localhost:9092/metrics" target="_blank">http//localhost9092/metrics</a>.</p>
+</div>
+<div>
+<h3>Reporting</h3>
+<p>Once metrics are gathered they can be reported to other sources. Reporters are defined in the configuration files and follow a standard pattern. They are defined under <code>container.metrics.reporters</code> and have there own named sections. For more detailed information, refer to the <a href="https://github.com/vonnagy/service-container/blob/master/docs/Metrics.md" target="_blank">Metrics</a> documentation for the Service Container.</p>
+<p>In this template we will enable the default reporter which is writes to the log file using <code>Slf4j</code>. The default configuration section looks like the following</p>
+<code><pre>
+container {
+	metrics {
+	    reporters {
+	      Slf4j {
+	        # The name of the reporter class
+	        class = "com.github.vonnagy.service.container.metrics.reporting.Slf4jReporter"
+	        # Is the reporter enabled
+	        enabled = on
+	        # What is the interval to report on
+	        reporting-interval = 60s
+	        # What is the logger
+	        logger = "com.github.vonnagy.service.container.metrics"
+	      }
+	    }
+	}
+}
+</pre></code>
+<p>The configuration for this tutorial also contains an example of how to wire up the <code>StatsD</code> reporter, but is disabled by default. The <code>StatsD</code> reporter is contained in the <strong>Service Container Metrics Reporting</strong> library.</p>
+<code><pre>
+statsD {
+	# The name of the reporter class
+	 class = "com.github.vonnagy.service.container.metrics.reporting.StatsDReporter"
+	 # Is the reporter enabled
+	 enabled = off
+	 # What is the interval to report on
+	 reporting-interval = 5s
+	 # The StatsD host
+	 host = "localhost"
+	 # The statsd port
+	 port = 8125
+	 # An optional prefix to append to metrics being sent to StatsD
+	 metric-prefix = ""
+}
+</pre></code>
 </div>
 </body>
 </html>
