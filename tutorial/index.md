@@ -2,7 +2,7 @@ Service Container
 ===========================
 
 # Overview
-This is a Typesafe Activator Template for demonstrating how to build a micro-service using the
+This is a Typesafe Activator Template for demonstrating how to build a microservice using the
 [Service Container](https://github.com/vonnagy/service-container). The example contained within the template constructs
 a simple REST API for the CRUD operation of a Widget. It simulates the persistence layer, bug can easily be replaced with your favorite bit of technology.
 
