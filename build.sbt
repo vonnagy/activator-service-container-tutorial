@@ -29,8 +29,9 @@ libraryDependencies ++= {
     "io.spray" 						%%  "spray-routing"			% sprayVersion,
     "net.liftweb" 				%%  "lift-json"					% liftVersion,
 
-    "io.spray" 						%%  "spray-testkit" 		% sprayVersion  % "test",
     "com.typesafe.akka" 	%%  "akka-testkit" 			% akkaVersion   % "test",
+    "io.spray"            %%  "spray-testkit"     % sprayVersion  % "test",
+    "junit"               %   "junit"             % "4.12"        % "test",
     "org.scalaz.stream"   %%  "scalaz-stream"     % "0.7a"        % "test",
     "org.specs2"          %%  "specs2-core"       % "3.5"         % "test",
     "org.specs2"          %%  "specs2-mock"       % "3.5"         % "test"

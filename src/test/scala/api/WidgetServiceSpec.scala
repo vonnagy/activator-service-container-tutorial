@@ -2,17 +2,18 @@ package api
 
 import com.github.vonnagy.service.container.http.routing.RoutingHandler
 import model.Widget
-import org.specs2.mutable.Specification
+import org.specs2.mutable.SpecificationLike
 import spray.http.HttpHeaders.{Accept, `Content-Type`}
 import spray.http.StatusCodes._
 import spray.http.{ContentTypes, MediaTypes}
 import spray.testkit.Specs2RouteTest
 
-class WidgetServiceSpec extends Specification with Specs2RouteTest with RoutingHandler {
+class WidgetServiceSpec extends Specs2RouteTest with RoutingHandler with SpecificationLike {
 
   sequential
   implicit val fact = system
   val service = new WidgetService
+
   import service.marshaller
 
   "The widget routing infrastructure should support" should {

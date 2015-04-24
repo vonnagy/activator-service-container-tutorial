@@ -48,7 +48,7 @@ class WidgetPersistence(implicit val system: ActorSystem) extends RegisteredHeal
     id match {
       case Some(id) =>
         // Return a specific widget
-        if (WidgetPersistence.widgets.contains(id)) {
+        if (WidgetPersistence.widgets.containsKey(id)) {
           Seq(WidgetPersistence.widgets.get(id))
         } else {
           Nil
@@ -62,7 +62,7 @@ class WidgetPersistence(implicit val system: ActorSystem) extends RegisteredHeal
   def updateWidget(id: Int, widget: Widget): Boolean = {
     update.incr
     // Update a specific widget
-    WidgetPersistence.widgets.contains(id) match {
+    WidgetPersistence.widgets.containsKey(id) match {
       case true =>
         WidgetPersistence.widgets.put(id, widget.copy(id = Some(id)))
         true
@@ -79,6 +79,7 @@ class WidgetPersistence(implicit val system: ActorSystem) extends RegisteredHeal
         val newId = WidgetPersistence.nextId()
         val newWidget = widget.copy(id = Some(newId))
         WidgetPersistence.widgets.put(newId, newWidget)
+        println("PUT")
         Some(newWidget)
       case _ =>
         None
@@ -88,7 +89,7 @@ class WidgetPersistence(implicit val system: ActorSystem) extends RegisteredHeal
   def deleteWidget(id: Int): Boolean = {
     delete.incr
     // Delete a specific widget
-    WidgetPersistence.widgets.contains(id) match {
+    WidgetPersistence.widgets.containsKey(id) match {
       case true =>
         WidgetPersistence.widgets.remove(id)
         true
