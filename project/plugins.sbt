@@ -1,4 +1,5 @@
-addSbtPlugin("io.spray" % "sbt-revolver" % "0.7.1")
+resolvers += "Sonatype snapshots" at "http://oss.sonatype.org/content/repositories/snapshots/"
+resolvers += Classpaths.sbtPluginReleases
 
 addSbtPlugin("com.timushev.sbt" % "sbt-updates" % "0.1.3")
 

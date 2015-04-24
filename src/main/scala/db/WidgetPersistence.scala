@@ -1,11 +1,13 @@
 package db
 
+import java.util.concurrent.ConcurrentHashMap
+
 import akka.actor.ActorSystem
-import com.github.vonnagy.service.container.health.{HealthState, HealthInfo, RegisteredHealthCheck}
+import com.github.vonnagy.service.container.health.{HealthInfo, HealthState, RegisteredHealthCheck}
 import com.github.vonnagy.service.container.metrics.Counter
 import model.Widget
 
-import scala.collection.mutable
+import scala.collection.JavaConversions._
 import scala.concurrent.Future
 
 object WidgetPersistence {
@@ -13,8 +15,14 @@ object WidgetPersistence {
   def apply()(implicit system: ActorSystem) = new WidgetPersistence()
 
   // This is a pretend persistence resource
-  val nextId = { var i = 100; () => { i += 1; i} }
-  val widgets = new mutable.HashMap[Int, Widget]() with mutable.SynchronizedMap[Int, Widget]
+  val nextId = {
+    var i = 100;
+    () => {
+      i += 1;
+      i
+    }
+  }
+  val widgets = new ConcurrentHashMap[Int, Widget]()
 }
 
 class WidgetPersistence(implicit val system: ActorSystem) extends RegisteredHealthCheck {
@@ -41,7 +49,7 @@ class WidgetPersistence(implicit val system: ActorSystem) extends RegisteredHeal
       case Some(id) =>
         // Return a specific widget
         if (WidgetPersistence.widgets.contains(id)) {
-          Seq(WidgetPersistence.widgets.get(id).get)
+          Seq(WidgetPersistence.widgets.get(id))
         } else {
           Nil
         }
