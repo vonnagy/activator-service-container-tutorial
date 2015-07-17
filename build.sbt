@@ -16,6 +16,7 @@ libraryDependencies ++= {
   val akkaVersion = "2.3.11"
   val liftVersion = "2.6.2"
   val sprayVersion = "1.3.3"
+  val specsVersion = "3.6.1"
 
   Seq(
     "com.github.vonnagy"  %% "service-container"                    % containerVersion,
@@ -30,10 +31,9 @@ libraryDependencies ++= {
 
     "com.typesafe.akka"   %% "akka-testkit"                         % akkaVersion   % "test",
     "io.spray"            %% "spray-testkit"                        % sprayVersion  % "test",
-    "junit"               % "junit"                                 % "4.12"        % "test",
     "org.scalaz.stream"   %% "scalaz-stream"                        % "0.7a"        % "test",
-    "org.specs2"          %% "specs2-core"                          % "3.6.1"       % "test",
-    "org.specs2"          %% "specs2-mock"                          % "3.6.1"       % "test"
+    "org.specs2"          %% "specs2-core"                          % specsVersion  % "test",
+    "org.specs2"          %% "specs2-mock"                          % specsVersion  % "test"
   )
 }
 
@@ -43,7 +43,7 @@ scalacOptions ++= Seq(
   "-Xlint",
   "-Ywarn-dead-code",
   "-language:_",
-  "-target:jvm-1.7",
+  "-target:jvm-1.8",
   "-encoding", "UTF-8"
 )
 
